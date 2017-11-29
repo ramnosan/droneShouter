@@ -54,7 +54,7 @@ namespace StrategiespielLOL
             timer.Start();
         }
 
-        private void spawnDrone(object sender, MouseButtonEventArgs e)
+        private void SpawnDrone(object sender, MouseButtonEventArgs e)
         {
             if (radioBtnSpawnDrone.IsChecked == true)
             {
@@ -111,7 +111,7 @@ namespace StrategiespielLOL
         public double yMouseUp;
         private void zeichenfläche_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            spawnDrone(sender, e);
+            SpawnDrone(sender, e);
             xMouseUp = e.GetPosition(zeichenfläche).X;
             yMouseUp = e.GetPosition(zeichenfläche).Y;
             selectObjects();
