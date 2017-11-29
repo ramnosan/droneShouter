@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace StrategiespielLOL
+namespace StrategiespielLOL//lol
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
