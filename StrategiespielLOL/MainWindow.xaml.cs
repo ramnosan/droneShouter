@@ -22,7 +22,7 @@ namespace StrategiespielLOL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()//amk
+        public MainWindow()
         {
             InitializeComponent();
             timer.Interval = TimeSpan.FromMilliseconds(1);//60 FPS = 
