@@ -5,7 +5,11 @@ using System.Windows.Shapes;
 
 namespace StrategiespielLOL
 {
+<<<<<<< HEAD
     class Drone : GameObject//LOL
+=======
+    class Drone : GameObject    ////dsbvidbv
+>>>>>>> bfd33935ae493e6be805cfbf1efd081fa2c11057
     {
         Ellipse el = new Ellipse();
         Line li = new Line();

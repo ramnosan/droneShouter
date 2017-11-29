@@ -54,7 +54,7 @@ namespace StrategiespielLOL
             timer.Start();
         }
 
-        private void SpawnDrone(object sender, MouseButtonEventArgs e)
+        private void spawnDrone(object sender, MouseButtonEventArgs e)
         {
             if (radioBtnSpawnDrone.IsChecked == true)
             {
