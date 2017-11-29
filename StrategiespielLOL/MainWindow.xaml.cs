@@ -111,7 +111,7 @@ namespace StrategiespielLOL
         public double yMouseUp;
         private void zeichenfläche_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            SpawnDrone(sender, e);
+            spawnDrone(sender, e);
             xMouseUp = e.GetPosition(zeichenfläche).X;
             yMouseUp = e.GetPosition(zeichenfläche).Y;
             selectObjects();
