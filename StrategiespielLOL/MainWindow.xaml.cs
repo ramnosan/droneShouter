@@ -22,6 +22,25 @@ namespace StrategiespielLOL//lol
     /// </summary>
     public partial class MainWindow : Window
     {
+        public void start(object sender, MouseButtonEventArgs e)
+        {
+          
+            Drone b = new Drone(zeichenfläche);
+            gameobjects.Add(b);
+            drones.Add(b);
+            b.X = 20;
+            b.Y = 40;
+            b.Zeichne(zeichenfläche);
+
+            Drone a = new Drone(zeichenfläche);
+            gameobjects.Add(a);
+            drones.Add(a);
+            a.X = 50;
+            a.Y = 40;
+            a.Zeichne(zeichenfläche);
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
