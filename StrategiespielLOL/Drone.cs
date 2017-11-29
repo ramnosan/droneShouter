@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace StrategiespielLOL
 {
-    class Drone : GameObject
+    class Drone : GameObject//LOL
     {
         Ellipse el = new Ellipse();
         Line li = new Line();
@@ -93,9 +93,9 @@ namespace StrategiespielLOL
             li.Fill = Brushes.Red;
             li.Stroke = Brushes.Red;
         }
+
         public override void Zeichne(Canvas zeichenfläche)
         {
-            
             zeichenfläche.Children.Add(li);
             Canvas.SetLeft(li, X);
             Canvas.SetTop(li, Y);
