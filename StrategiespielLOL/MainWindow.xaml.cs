@@ -179,10 +179,7 @@ namespace StrategiespielLOL//lol
 
         private void Window_KeyDown_1(object sender, KeyEventArgs e)
         {
-            switch ()
-            {
-                default:
-            }
+            
         }
     }
 }
