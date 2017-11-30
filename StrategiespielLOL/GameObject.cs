@@ -14,6 +14,7 @@ namespace StrategiespielLOL
         double y;
         double vx;
         double vy;
+        
 
         public double X
         { get { return x; }  set { this.x = value; } }
@@ -74,5 +75,10 @@ namespace StrategiespielLOL
 
             return überDenRandGegangen;
         }
+
+        /*public bool EnthältPunkt(double x, double y)
+        {
+            //return umriss.RenderedGeometry.FillContains(new System.Windows.Point(x - X, y - Y));
+        }*/
     }
 }

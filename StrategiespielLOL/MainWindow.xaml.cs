@@ -38,12 +38,16 @@ namespace StrategiespielLOL//lol
             lblFramesPerSecond.Content = framesInASecond;
             framesInASecond = 0;
         }
-
+        /// <summary>
+        /// /IMPORTANT LISTS AND OBJECTS
+        /// </summary>
         DispatcherTimer timer = new DispatcherTimer();
         DispatcherTimer timerFPS = new DispatcherTimer(); int framesInASecond = 0;
 
         List<GameObject> gameobjects = new List<GameObject>();
         List<Drone> drones = new List<Drone>();
+        List<Photonentorpedo> torpedoList = new List<Photonentorpedo>();
+        //_________________________________________________________________________
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
@@ -67,45 +71,49 @@ namespace StrategiespielLOL//lol
             }
         }
 
-        void Animiere(object sender, EventArgs e)
+        private void Animiere(object sender, EventArgs e)
         {
-            
             zeichenfläche.Children.Clear();
+
+            //DELETE THEN COLLISSION
+            List<Photonentorpedo> torpedoToDelete = new List<Photonentorpedo>();
+            List<Drone> droneToDelete = new List<Drone>();
+            foreach (var d in drones)
+            {
+                foreach (var torpedo in torpedoList)
+                {
+                    if (d.EnthältPunkt(torpedo.X, torpedo.Y))
+                    {
+                        droneToDelete.Add(d);
+                        torpedoToDelete.Add(torpedo);
+                    }
+                }
+            }
+            gameobjects = gameobjects.Except(torpedoToDelete).ToList();
+            torpedoList = torpedoList.Except(torpedoToDelete).ToList();
+            gameobjects = gameobjects.Except(droneToDelete).ToList();
+            drones = drones.Except(droneToDelete).ToList();
+            foreach (var laser in torpedoToDelete)
+            {
+                torpedoList.Remove(laser);
+                gameobjects.Remove(laser);
+            }
+            foreach (var drone in droneToDelete)
+            {
+                drones.Remove(drone);
+                gameobjects.Remove(drone);
+            }
+            //END DELETE COLLISSIon
+
+            //ANIMIERE
             foreach (var go in gameobjects)
             {
-                //Thread thread = new Thread(() => go.Animiere(timer.Interval, zeichenfläche));
-                //thread.Start();
-                //thread.Abort();
                 go.Animiere(timer.Interval, zeichenfläche);
                 go.Zeichne(zeichenfläche);
-                //Thread threadZeichne = new Thread(() => go.Zeichne(zeichenfläche));
-                //threadZeichne.Start();
-                //threadZeichne.Abort();
             }
 
             framesInASecond++;
         }
-        Thread thread;
-        void startThreadAnim(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(
-   new Action(() => {
-       
-            if (thread == null)
-            {
-                thread = new Thread(() => Animiere(sender, e));
-                thread.Priority = ThreadPriority.Highest;
-                thread.Start();
-            }
-            else if (thread.IsAlive == false)
-            {
-                
-            }
-   })
-);
-        }
-
-       
 
         public double xMouseUp;
         public double yMouseUp;
@@ -145,26 +153,36 @@ namespace StrategiespielLOL//lol
 
         private void zeichenfläche_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (var item in drones)
+            foreach (var drone in drones)
             {
-                if (item.IsSelected)
+                if (drone.IsSelected)
                 {
-                    item.changeDirection(getWinkelRad(e.GetPosition(zeichenfläche).X - item.X,
-                        e.GetPosition(zeichenfläche).Y - item.Y));
-                    
+                    drone.changeDirection(getWinkelRad(e.GetPosition(zeichenfläche).X - drone.X,
+                        e.GetPosition(zeichenfläche).Y - drone.Y));
+                    //
+                    Photonentorpedo torpedo = new Photonentorpedo(drone); torpedo.changeDirection(drone.lookingDirection, drone);
+                    torpedoList.Add(torpedo);
+                    gameobjects.Add(torpedo);
+                    //
                 }
             }
         }
         private double getWinkelRad(double deltaX, double deltaY)//delta = Differenz bzw. Entfernung
         {
-            //double a = Math.Atan(deltaY/deltaX);
             double a = Math.Atan2(deltaY, deltaX) * -1;
             return a;
         }
         private double degreeToBogenmaß(double grad)//?
         {
-            //return grad;
             return 2*Math.PI * (grad/360);
+        }
+
+        private void Window_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            switch ()
+            {
+                default:
+            }
         }
     }
 }
