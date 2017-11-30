@@ -184,7 +184,8 @@ namespace StrategiespielLOL//lol
 
         private void btnStartGeneticAlgorythm_Click(object sender, RoutedEventArgs e)
         {
-
+            //Create new population
+            int population = 20;
         }
 
         private List<double> inputsForNN = new List<double>();
@@ -195,7 +196,7 @@ namespace StrategiespielLOL//lol
             double distanceFromOtherDrone = Math.Sqrt(Math.Pow((d2.X - d1.X),2) + Math.Pow((d2.Y - d1.Y), 2));
             //2.input: distance from threat
             double distanceFromShot = 0;
-            foreach (var shot in enemyShots)
+            foreach (var shot in enemyShots)//TODO 
             {
                 distanceFromShot = calculateDistance(d1.X, d1.Y, shot.X, shot.Y);
             }
