@@ -26,3 +26,17 @@ C:\Users\Leon\Documents\Visual Studio 2012\Projects\StrategiespielLOL\Strategies
 C:\Users\Leon\Documents\Visual Studio 2012\Projects\StrategiespielLOL\StrategiespielLOL\obj\Debug\StrategiespielLOL.g.resources
 C:\Users\Leon\Documents\Visual Studio 2012\Projects\StrategiespielLOL\StrategiespielLOL\obj\Debug\StrategiespielLOL.Properties.Resources.resources
 C:\Users\Leon\Documents\Visual Studio 2012\Projects\StrategiespielLOL\StrategiespielLOL\obj\Debug\StrategiespielLOL.csproj.GenerateResource.Cache
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\bin\Debug\StrategiespielLOL.exe.config
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\bin\Debug\StrategiespielLOL.exe
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\bin\Debug\StrategiespielLOL.pdb
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL.csprojResolveAssemblyReference.cache
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\MainWindow.g.cs
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\App.g.cs
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL_MarkupCompile.cache
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL_MarkupCompile.lref
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\MainWindow.baml
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL.g.resources
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL.Properties.Resources.resources
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL.csproj.GenerateResource.Cache
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL.exe
+C:\Users\ramno\Documents\GitHub\droneShouter\StrategiespielLOL\obj\Debug\StrategiespielLOL.pdb

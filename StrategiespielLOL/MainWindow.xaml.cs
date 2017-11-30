@@ -181,5 +181,31 @@ namespace StrategiespielLOL//lol
         {
             
         }
+
+        private void btnStartGeneticAlgorythm_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private List<double> inputsForNN = new List<double>();
+        private List<double> getInpuutsForNN(Drone d1, Drone d2, List<Photonentorpedo> enemyShots)
+        {
+            inputsForNN.Clear();
+            //1.input: distance from other drone
+            double distanceFromOtherDrone = Math.Sqrt(Math.Pow((d2.X - d1.X),2) + Math.Pow((d2.Y - d1.Y), 2));
+            //2.input: distance from threat
+            double distanceFromShot = 0;
+            foreach (var shot in enemyShots)
+            {
+                distanceFromShot = calculateDistance(d1.X, d1.Y, shot.X, shot.Y);
+            }
+
+            return inputsForNN;
+        }
+
+        private double calculateDistance(double x1, double y1, double x2, double y2)
+        {
+            return Math.Sqrt(Math.Pow((x1 - x2), 2) + Math.Pow((y1 - y2), 2));
+        }
     }
 }

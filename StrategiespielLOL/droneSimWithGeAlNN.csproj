@@ -65,12 +65,18 @@
     </Compile>
     <Compile Include="Drone.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="GeneticAlgorythm.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NeuralNet\CryptoRandom.cs" />
+    <Compile Include="NeuralNet\Dendrite.cs" />
+    <Compile Include="NeuralNet\Layer.cs" />
+    <Compile Include="NeuralNet\NeuralNetwork.cs" />
+    <Compile Include="NeuralNet\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

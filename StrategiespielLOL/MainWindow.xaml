@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StrategiespielLOL"
         mc:Ignorable="d"
-        Title="MainWindow" Width="1919" Height="1080" ResizeMode="NoResize" KeyDown="Window_KeyDown_1">
+        Title="MainWindow" ResizeMode="NoResize" KeyDown="Window_KeyDown_1">
     <Grid>
         <Canvas x:Name="zeichenfläche" HorizontalAlignment="Stretch" Margin="0,30,0,0" VerticalAlignment="Stretch" Background="#FFB8B8B8" MouseLeftButtonUp="zeichenfläche_MouseLeftButtonUp" MouseLeftButtonDown="zeichenfläche_MouseLeftButtonDown" MouseRightButtonDown="zeichenfläche_MouseRightButtonDown" />
         <Button x:Name="btnStart" Content="Button" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="75" Click="btnStart_Click"/>
         <RadioButton x:Name="radioBtnSpawnDrone" Content="Spawn Drone" HorizontalAlignment="Left" Margin="120,10,0,0" VerticalAlignment="Top" Width="96" IsChecked="True"/>
         <RadioButton Content="RadioButton" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblFramesPerSecond" Content="Label" HorizontalAlignment="Left" Margin="382,2,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnStartGeneticAlgorythm" Content="start GA" HorizontalAlignment="Left" Margin="611,5,0,0" VerticalAlignment="Top" Width="75" Click="btnStartGeneticAlgorythm_Click"/>
 
     </Grid>
 </Window>

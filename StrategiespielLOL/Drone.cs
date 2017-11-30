@@ -14,18 +14,20 @@ namespace StrategiespielLOL
             get{ return this.li;} set{;}
         }
 
+        public NeuralNet.NeuralNet.NeuralNetwork NeuralNetwork
+        {
+            get; set;
+        }
+
         double height = 25;
         public double Height { get { return this.height; } }
         double width = 25;
         public double Width { get { return this.width; } }
         public double r = 12.5;
         public double lookingDirection;
-
-        double memoryMoveToPos;
-
+                
         bool isSelected = false;
-        private double grad;
-
+        
         public bool IsSelected { get { return this.isSelected; } set { this.isSelected = value; } }
 
         public Drone(Canvas zeichenfläche)
@@ -78,17 +80,7 @@ namespace StrategiespielLOL
             VX *= faktor;
             VY *= faktor;
         }
-
-        public void moveToPos(double x, double y)
-        {
-
-        }
-
-        public void shootLaser()
-        {
-
-        }
-
+                
         public bool EnthältPunkt(double x, double y)
         {
             return el.RenderedGeometry.FillContains(new System.Windows.Point(x - X, y - Y));
