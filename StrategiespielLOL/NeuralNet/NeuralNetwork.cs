@@ -123,11 +123,5 @@ namespace NeuralNet.NeuralNet
 
             return true;
         }
-
-        public void getWeights()
-        {
-
-        }
-
     }
 }

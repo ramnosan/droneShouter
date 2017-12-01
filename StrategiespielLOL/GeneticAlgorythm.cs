@@ -11,7 +11,7 @@ namespace StrategiespielLOL
     {
         Random random = new Random();
 
-        public List<Drone> drones{ get;  set; }
+        //public List<Drone> drones{ get;  set; }
 
         public int Population { get; private set; }
 
@@ -23,7 +23,6 @@ namespace StrategiespielLOL
         {
             this.Population = _population;
             Mutationrate = _mutationrate;
-            drones = new List<Drone>();
         }
 
         public void pickP1AndP2(List<Drone> winnerPool)
@@ -34,35 +33,37 @@ namespace StrategiespielLOL
 
     public class DNA
     {
-        public double [,] Genome2D
-        { get; set; }
+        Random random = new Random();
+
+        public List<List<double>> Genome2D // stores weights of a ANN(Artificial Neural Network)
+        { get; private set; }
 
         public DNA(NeuralNetwork n)
         {
-
+            Genome2D = getWeights2D(n);
         }
 
-        public void crossoverFlipACoin()
+        public void crossoverFlipACoin(List<List<double>> otherGenome)
         {
-
+            
         }
 
-        private List<List<double>> getWeights2D(Drone d)
+        private List<List<double>> getWeights2D(NeuralNetwork n)
         {
             List<List<double>> weightsL = new List<List<double>>();
             List<double> weightsN;
             double weightD;
             
-            for (int i = 0; i < d.NeuralNetwork.LayerCount-1; i++) // i = layerposition
+            for (int i = 0; i < n.LayerCount-1; i++) // i = layerposition
 			{
-                for (int j = 0; j < d.NeuralNetwork.Layers[i].NeuronCount; j++)//j = neuronposition
+                for (int j = 0; j < n.Layers[i].NeuronCount; j++)//j = neuronposition
                 {
                     weightsN = new List<double>();
                     weightsL.Add(weightsN);
                     
-                    for (int k = 0; k < d.NeuralNetwork.Layers[i].Neurons[j].DendriteCount; k++)
+                    for (int k = 0; k < n.Layers[i].Neurons[j].DendriteCount; k++)
 			        {
-                        weightD = d.NeuralNetwork.Layers[i].Neurons[j].Dendrites[k].Weight;
+                        weightD = n.Layers[i].Neurons[j].Dendrites[k].Weight;
                         weightsN.Add(weightD);
 			        }
                 }

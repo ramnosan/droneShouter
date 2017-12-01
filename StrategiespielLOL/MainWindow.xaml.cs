@@ -48,6 +48,10 @@ namespace StrategiespielLOL//lol
         List<GameObject> gameobjects = new List<GameObject>();
         List<Drone> drones = new List<Drone>();
         List<Photonentorpedo> torpedoList = new List<Photonentorpedo>();
+
+        List<Drone> popOfDrones = new List<Drone>();//for GA Elements of this List are not in the other and vise versa
+        List<Drone> winningPool = new List<Drone>();//for GA
+        bool gaActivated = false;
         //_________________________________________________________________________
         Random random = new Random();
 
@@ -58,6 +62,7 @@ namespace StrategiespielLOL//lol
             drones.Add(d);
             d.Zeichne(zeichenfläche);
             timer.Start();
+            spawnDrone(new Drone(zeichenfläche), new Drone(zeichenfläche));
         }
 
         private void spawnDrone(object sender, MouseButtonEventArgs e)
@@ -73,6 +78,21 @@ namespace StrategiespielLOL//lol
                 d.changeDirection(0);
             }
         }
+        private void spawnDrone(Drone d1, Drone d2, bool duelMode = true)
+        {
+            
+            d1.X = 300; d1.Y = 200;
+            d2.X = 900; d2.Y = 200;
+            gameobjects.Add(d1); drones.Add(d1);
+            gameobjects.Add(d2); drones.Add(d2);
+        }
+
+        private void spawnTorpedo(Drone drone)
+        {
+            Photonentorpedo torpedo = new Photonentorpedo(drone); torpedo.changeDirection(drone.lookingDirection, drone);
+            torpedoList.Add(torpedo);
+            gameobjects.Add(torpedo);
+        }
 
         /// <summary>
         /// standard game logic//description TODO
@@ -83,7 +103,7 @@ namespace StrategiespielLOL//lol
         {
             zeichenfläche.Children.Clear();
 
-            //DELETE THEN COLLISSION
+            //DELETE THEN COLLISSION________________________________________________
             List<Photonentorpedo> torpedoToDelete = new List<Photonentorpedo>();
             List<Drone> droneToDelete = new List<Drone>();
             foreach (var d in drones)
@@ -97,6 +117,7 @@ namespace StrategiespielLOL//lol
                     }
                 }
             }
+
             gameobjects = gameobjects.Except(torpedoToDelete).ToList();
             torpedoList = torpedoList.Except(torpedoToDelete).ToList();
             gameobjects = gameobjects.Except(droneToDelete).ToList();
@@ -111,7 +132,7 @@ namespace StrategiespielLOL//lol
                 drones.Remove(drone);
                 gameobjects.Remove(drone);
             }
-            //END DELETE COLLISSION
+            //END DELETE COLLISSION_________________________________________________
 
             //ANIMIERE
             foreach (var go in gameobjects)
@@ -121,6 +142,51 @@ namespace StrategiespielLOL//lol
             }
 
             framesInASecond++;
+            //END ANIMIERE
+            //GA
+            if (gaActivated)
+            {
+                if (drones.Count < 2 && drones.Count != 0)
+                {
+                    winningPool.Add(drones.ElementAt(0));
+                    if (popOfDrones.Count != 0)
+                        start1v1Match(popOfDrones);
+                    else
+                    {
+                        //TODO
+                        //start crossover
+                        //insert new population
+                        //startover
+                    }
+                }
+                else if(drones.Count == 2)
+                {
+                    //Feed NeuralNetwork inputs
+                    double[] outputs1 = drones[0].NeuralNetwork.Run(getInpuutsForNN(drones[0], drones[1]));
+                    double[] outputs2 = drones[1].NeuralNetwork.Run(getInpuutsForNN(drones[1], drones[0]));
+                    //and process their outputs
+                    processOutputs(outputs1, drones[0]);
+                    processOutputs(outputs2, drones[1]);
+                }
+                else
+                {
+                    start1v1Match(popOfDrones);
+                }
+            }
+        }
+        //Animiere function END
+
+        private void processOutputs(double[] outputs, Drone d)
+        {
+            d.VX = outputs[0] * 10000;
+            d.VY = outputs[1] * 10000;
+            d.changeDirection((outputs[2] + 1) * Math.PI);
+            if (outputs[3] > 0)
+            {
+                spawnTorpedo(d);
+            }
+            //outputs[0] *= 100; MessageBox.Show(outputs[0].ToString());
+            //MessageBox.Show(outputs[3].ToString());
         }
 
         private double xMouseUp;
@@ -198,28 +264,27 @@ namespace StrategiespielLOL//lol
         /// <param name="e"></param>
         private void btnStartGeneticAlgorythm_Click(object sender, RoutedEventArgs e)
         {
-            List<Drone> popOfDrones = new List<Drone>();
-            List<Drone> winningPool = new List<Drone>();
+            gaActivated = true;
+            popOfDrones.Clear();
+            winningPool.Clear();
             //initialize GA with populationsize and mutationrate
-            int population = 20;
+            int population = 200;
             float mutationrate = 0.01f;
             GeneticAlgorythm ga = new GeneticAlgorythm(population, mutationrate);
             
             //Create new population
             for (int i = 0; i < population; i++)
             {
-                popOfDrones.Add(new Drone(zeichenfläche));
+                popOfDrones.Add(new Drone(zeichenfläche, true));
                 popOfDrones[i].NeuralNetwork = new NeuralNetwork(0.25, new int[] {4, 8, 4});
             }
-            ga.drones = popOfDrones;//TODO: ??? i dont know yet
             
-            //Let two drones fight agaist each other, the survivor gets inserted into the winningPool
-
-
+            //Let two drones fight against each other, the survivor gets inserted into the winningPool
+            start1v1Match(popOfDrones);
         }
-
-        private List<double> inputsForNN = new List<double>();
-        private List<double> getInpuutsForNN(Drone d1, Drone d2, List<Photonentorpedo> enemyShots)
+        //____________________________________________________________________________________________________
+        List<double> inputsForNN = new List<double>();
+        private List<double> getInpuutsForNN(Drone d1, Drone d2)
         {
             inputsForNN.Clear();
             //1.input: distance from other drone
@@ -240,7 +305,6 @@ namespace StrategiespielLOL//lol
             }*/
             inputsForNN.Add(d1.X); inputsForNN.Add(d1.Y);
             inputsForNN.Add(d2.X); inputsForNN.Add(d2.Y);
-            
 
             return inputsForNN;
         }
@@ -248,6 +312,23 @@ namespace StrategiespielLOL//lol
         private double calculateDistance(double x1, double y1, double x2, double y2)
         {
             return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+        }
+
+        private void start1v1Match(List<Drone> population)
+        {
+            drones.Clear();
+            torpedoList.Clear();
+            gameobjects.Clear();
+            int r1 = random.Next(0, population.Count);
+            int r2 = random.Next(0, population.Count);
+            while (r1 == r2)
+            {
+                r2 = random.Next(0, population.Count);
+            }
+            
+            spawnDrone(population[r1], population[r2]);
+            popOfDrones.RemoveAt(r1); popOfDrones.RemoveAt(r2);
+            timer.Start();
         }
     }
 }
