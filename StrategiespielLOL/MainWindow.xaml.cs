@@ -114,6 +114,7 @@ namespace StrategiespielLOL//lol
                     {
                         droneToDelete.Add(d);
                         torpedoToDelete.Add(torpedo);
+                        popOfDrones.Remove(d);
                     }
                 }
             }
@@ -149,7 +150,8 @@ namespace StrategiespielLOL//lol
                 if (drones.Count < 2 && drones.Count != 0)
                 {
                     winningPool.Add(drones.ElementAt(0));
-                    if (popOfDrones.Count != 0)
+                    if (true)
+                        
                         start1v1Match(popOfDrones);
                     else
                     {
@@ -178,15 +180,14 @@ namespace StrategiespielLOL//lol
 
         private void processOutputs(double[] outputs, Drone d)
         {
-            d.VX = outputs[0] * 10000;
-            d.VY = outputs[1] * 10000;
+            d.VX = (outputs[0]-0.5) * 8000;
+            d.VY = (outputs[1]-0.5) * 8000;
             d.changeDirection((outputs[2] + 1) * Math.PI);
-            if (outputs[3] > 0)
+            if ((outputs[3]-0.5) > 0)
             {
                 spawnTorpedo(d);
             }
-            //outputs[0] *= 100; MessageBox.Show(outputs[0].ToString());
-            //MessageBox.Show(outputs[3].ToString());
+            
         }
 
         private double xMouseUp;
@@ -268,7 +269,7 @@ namespace StrategiespielLOL//lol
             popOfDrones.Clear();
             winningPool.Clear();
             //initialize GA with populationsize and mutationrate
-            int population = 200;
+            int population = 20;
             float mutationrate = 0.01f;
             GeneticAlgorythm ga = new GeneticAlgorythm(population, mutationrate);
             
@@ -276,7 +277,7 @@ namespace StrategiespielLOL//lol
             for (int i = 0; i < population; i++)
             {
                 popOfDrones.Add(new Drone(zeichenfläche, true));
-                popOfDrones[i].NeuralNetwork = new NeuralNetwork(0.25, new int[] {4, 8, 4});
+                popOfDrones[i].NeuralNetwork = new NeuralNetwork(0.25, new int[] {4, 5, 4, 4});
             }
             
             //Let two drones fight against each other, the survivor gets inserted into the winningPool
@@ -325,9 +326,10 @@ namespace StrategiespielLOL//lol
             {
                 r2 = random.Next(0, population.Count);
             }
+
             
             spawnDrone(population[r1], population[r2]);
-            popOfDrones.RemoveAt(r1); popOfDrones.RemoveAt(r2);
+            
             timer.Start();
         }
     }

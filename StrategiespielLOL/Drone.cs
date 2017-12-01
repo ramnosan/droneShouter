@@ -97,8 +97,8 @@ namespace StrategiespielLOL
         public Photonentorpedo(Drone drone)
             : base(drone.X, drone.Y)
         {
-            VX = 500 * (drone.LI.X1 - drone.LI.X2);
-            VY = 500 * (drone.LI.Y1 - drone.LI.Y2);
+            VX = 2000 * (drone.LI.X1 - drone.LI.X2);
+            VY = 2000 * (drone.LI.Y1 - drone.LI.Y2);
         }
 
         public override void Zeichne(Canvas zeichenfläche)

@@ -33,19 +33,31 @@ namespace StrategiespielLOL
 
     public class DNA
     {
+        CryptoRandom cRandom = new CryptoRandom();
         Random random = new Random();
 
-        public List<List<double>> Genome2D // stores weights of a ANN(Artificial Neural Network)
+        public List<List<double>> Genome // stores weights of a ANN(Artificial Neural Network)
         { get; private set; }
 
         public DNA(NeuralNetwork n)
         {
-            Genome2D = getWeights2D(n);
+            Genome = getWeights2D(n);
         }
 
-        public void crossoverFlipACoin(List<List<double>> otherGenome)
+        public List<List<double>> crossoverFlipACoin(List<List<double>> otherGenome)
         {
-            
+            List<List<double>> newGenome = new List<List<double>>();
+            for (int i = 0; i < Genome.Count; i++)
+            {
+                for (int j = 0; j < Genome[i].Count; j++)
+                {
+                    if (random.Next(0,2) == 0)
+                        newGenome.ElementAt(i).Add(otherGenome.ElementAt(i).ElementAt(j));
+                    else
+                        newGenome.ElementAt(i).Add(Genome.ElementAt(i).ElementAt(j));
+                }
+            }
+            return newGenome;
         }
 
         private List<List<double>> getWeights2D(NeuralNetwork n)

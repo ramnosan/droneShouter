@@ -1,4 +1,6 @@
-﻿namespace NeuralNet.NeuralNet
+﻿
+
+namespace NeuralNet.NeuralNet
 {
     public class Dendrite
     {

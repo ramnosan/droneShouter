@@ -46,7 +46,7 @@ namespace NeuralNet.NeuralNet
 
         private double Sigmoid(double x)
         {
-            return 1 / (1 + Math.Exp(-x));
+            return 1.0 / (1.0 + Math.Exp(-x));
         }
 
         public double[] Run(List<double> input)
