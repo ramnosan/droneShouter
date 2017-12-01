@@ -2,11 +2,13 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using NeuralNet.NeuralNet;
 
 namespace StrategiespielLOL
 {
-    class Drone : GameObject
+    public class Drone : GameObject
     {
+        DNA dna;
         Ellipse el = new Ellipse();
         Line li = new Line();
         public Line LI
@@ -14,7 +16,7 @@ namespace StrategiespielLOL
             get{ return this.li;} set{;}
         }
 
-        public NeuralNet.NeuralNet.NeuralNetwork NeuralNetwork
+        public NeuralNetwork NeuralNetwork
         {
             get; set;
         }
@@ -30,7 +32,7 @@ namespace StrategiespielLOL
         
         public bool IsSelected { get { return this.isSelected; } set { this.isSelected = value; } }
 
-        public Drone(Canvas zeichenfläche)
+        public Drone(Canvas zeichenfläche, bool hasNN = false)
             : base(zeichenfläche.ActualWidth * 0.5, zeichenfläche.ActualHeight * 0.5)
         {
             li.Fill = Brushes.Black;
@@ -44,10 +46,11 @@ namespace StrategiespielLOL
             el.Fill = Brushes.FloralWhite;
             el.StrokeThickness = 1.5;
             el.Stroke = Brushes.Black;
+                   
 
-            Random rand = new Random();
+            /*Random rand = new Random();
             VX = rand.Next(-50, 50);
-            VY = rand.Next(-50, 50);
+            VY = rand.Next(-50, 50);*/
         }  
 
         public override void Zeichne(Canvas zeichenfläche)
@@ -85,13 +88,12 @@ namespace StrategiespielLOL
         {
             return el.RenderedGeometry.FillContains(new System.Windows.Point(x - X, y - Y));
         }
-
-
-        
     }
-    //______________________________________________________________
+    //______________________________________________________________Photonentropedo
     class Photonentorpedo : GameObject
     {
+        public double flyingDirection { get; private set; }
+
         public Photonentorpedo(Drone drone)
             : base(drone.X, drone.Y)
         {
@@ -111,7 +113,7 @@ namespace StrategiespielLOL
         }
 
         /// <summary>
-        /// ändert den Startpunkt, sodass die kugel nicht in der Drone spawnen
+        /// ändert den Startpunkt, sodass die Kugeln nicht in der Drone spawnen
         /// </summary>
         /// <param name="bogenmaß"></param>
         /// <param name="d"></param>
@@ -119,6 +121,7 @@ namespace StrategiespielLOL
         {
             X += d.LI.X1;
             Y += d.LI.Y1;
+            flyingDirection = d.lookingDirection;//setzt die variable fest sodass der input an das NN übergeben werden kann
         }
         
     }

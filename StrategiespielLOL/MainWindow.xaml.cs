@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using NeuralNet.NeuralNet;
 
 namespace StrategiespielLOL//lol
 {
@@ -48,6 +49,7 @@ namespace StrategiespielLOL//lol
         List<Drone> drones = new List<Drone>();
         List<Photonentorpedo> torpedoList = new List<Photonentorpedo>();
         //_________________________________________________________________________
+        Random random = new Random();
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
@@ -68,9 +70,15 @@ namespace StrategiespielLOL//lol
                 d.X = e.GetPosition(zeichenfläche).X - d.Height / 2;
                 d.Y = e.GetPosition(zeichenfläche).Y - d.Width / 2;
                 d.Zeichne(zeichenfläche);
+                d.changeDirection(0);
             }
         }
 
+        /// <summary>
+        /// standard game logic//description TODO
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Animiere(object sender, EventArgs e)
         {
             zeichenfläche.Children.Clear();
@@ -103,7 +111,7 @@ namespace StrategiespielLOL//lol
                 drones.Remove(drone);
                 gameobjects.Remove(drone);
             }
-            //END DELETE COLLISSIon
+            //END DELETE COLLISSION
 
             //ANIMIERE
             foreach (var go in gameobjects)
@@ -115,8 +123,8 @@ namespace StrategiespielLOL//lol
             framesInASecond++;
         }
 
-        public double xMouseUp;
-        public double yMouseUp;
+        private double xMouseUp;
+        private double yMouseUp;
         private void zeichenfläche_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             spawnDrone(sender, e);
@@ -182,10 +190,32 @@ namespace StrategiespielLOL//lol
             
         }
 
+        /// <summary>
+        /// function: two individuums are kicked in a pool too fight, the fight is simulated, the winner gets into the "breeding pool",
+        /// then the whole population has fought, two individuums are picked to crossover until the max population is reached again
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStartGeneticAlgorythm_Click(object sender, RoutedEventArgs e)
         {
-            //Create new population
+            List<Drone> popOfDrones = new List<Drone>();
+            List<Drone> winningPool = new List<Drone>();
+            //initialize GA with populationsize and mutationrate
             int population = 20;
+            float mutationrate = 0.01f;
+            GeneticAlgorythm ga = new GeneticAlgorythm(population, mutationrate);
+            
+            //Create new population
+            for (int i = 0; i < population; i++)
+            {
+                popOfDrones.Add(new Drone(zeichenfläche));
+                popOfDrones[i].NeuralNetwork = new NeuralNetwork(0.25, new int[] {4, 8, 4});
+            }
+            ga.drones = popOfDrones;//TODO: ??? i dont know yet
+            
+            //Let two drones fight agaist each other, the survivor gets inserted into the winningPool
+
+
         }
 
         private List<double> inputsForNN = new List<double>();
@@ -193,20 +223,31 @@ namespace StrategiespielLOL//lol
         {
             inputsForNN.Clear();
             //1.input: distance from other drone
-            double distanceFromOtherDrone = Math.Sqrt(Math.Pow((d2.X - d1.X),2) + Math.Pow((d2.Y - d1.Y), 2));
+            //double distanceFromOtherDrone = Math.Sqrt(Math.Pow((d2.X - d1.X),2) + Math.Pow((d2.Y - d1.Y), 2));
             //2.input: distance from threat
-            double distanceFromShot = 0;
-            foreach (var shot in enemyShots)//TODO 
+            //double distanceFromShot = 0;
+            //double h = 0;
+            //Calculates the shortest distance from a shot
+            /*foreach (var shot in enemyShots)//TODO 
             {
-                distanceFromShot = calculateDistance(d1.X, d1.Y, shot.X, shot.Y);
-            }
+                h = calculateDistance(d1.X, d1.Y, shot.X, shot.Y);
+                if (h > distanceFromShot)
+                {
+                    distanceFromShot = h;
+                    //3. input: angle of enemy shot // transform is to angle from you
+                   
+                }
+            }*/
+            inputsForNN.Add(d1.X); inputsForNN.Add(d1.Y);
+            inputsForNN.Add(d2.X); inputsForNN.Add(d2.Y);
+            
 
             return inputsForNN;
         }
 
         private double calculateDistance(double x1, double y1, double x2, double y2)
         {
-            return Math.Sqrt(Math.Pow((x1 - x2), 2) + Math.Pow((y1 - y2), 2));
+            return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
         }
     }
 }

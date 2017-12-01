@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace StrategiespielLOL
 {
-    abstract class GameObject
+    public abstract class GameObject
     {
         double x;
         double y;
